@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.kotlin.serializable)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -56,4 +60,32 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Dagger hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+    // Coil
+    implementation(libs.coil.compose)
+
+    // Moshi
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+
+    // Hilt navigation
+    implementation(libs.hilt.nav.compose)
+
+    // Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    // DataStore
+    implementation(libs.datastore.preferences)
+
+    // Material icons
+    implementation(libs.material.icon)
+
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 }
