@@ -25,7 +25,7 @@ fun AppNavHost(
         modifier = modifier
     ) {
         composable(Route.Entry.route) {
-            EntryScreen()
+            EntryScreen {}
         }
         composable(Route.List.route) {
             ListScreen()
