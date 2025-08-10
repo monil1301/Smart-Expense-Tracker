@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.shah.smartexpensetracker.data.source.local.ExpenseDatabase
 import com.shah.smartexpensetracker.data.source.local.dao.ExpenseEntryDao
 import com.shah.smartexpensetracker.data.source.local.dao.ExpenseListDao
+import com.shah.smartexpensetracker.data.source.local.dao.ExpenseReportDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,4 +36,7 @@ object DatabaseModule {
 
     @Provides
     fun providesExpenseListDao(database: ExpenseDatabase): ExpenseListDao = database.expenseListDao()
+
+    @Provides
+    fun providesExpenseReportDao(database: ExpenseDatabase): ExpenseReportDao = database.expenseReportDao()
 }
