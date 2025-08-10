@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.shah.smartexpensetracker.ui.EntryViewModel
+import com.shah.smartexpensetracker.ui.viewmodels.EntryViewModel
 import com.shah.smartexpensetracker.ui.components.CategoryDropdown
 import com.shah.smartexpensetracker.ui.components.EntryTopBar
 import com.shah.smartexpensetracker.utils.Constants

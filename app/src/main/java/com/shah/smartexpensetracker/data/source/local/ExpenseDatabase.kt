@@ -3,6 +3,7 @@ package com.shah.smartexpensetracker.data.source.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.shah.smartexpensetracker.data.source.local.dao.ExpenseEntryDao
+import com.shah.smartexpensetracker.data.source.local.dao.ExpenseListDao
 import com.shah.smartexpensetracker.data.source.local.entity.ExpenseEntity
 
 /**
@@ -11,5 +12,6 @@ import com.shah.smartexpensetracker.data.source.local.entity.ExpenseEntity
 
 @Database(entities = [ExpenseEntity::class], version = 1)
 abstract class ExpenseDatabase : RoomDatabase() {
-    abstract fun expenseDao(): ExpenseEntryDao
+    abstract fun expenseEntryDao(): ExpenseEntryDao
+    abstract fun expenseListDao(): ExpenseListDao
 }

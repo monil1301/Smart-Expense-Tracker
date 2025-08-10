@@ -1,4 +1,4 @@
-package com.shah.smartexpensetracker.ui
+package com.shah.smartexpensetracker.ui.viewmodels
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
