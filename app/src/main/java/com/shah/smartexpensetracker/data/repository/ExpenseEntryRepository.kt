@@ -44,6 +44,7 @@ class ExpenseEntryRepository @Inject constructor(private val dao: ExpenseEntryDa
             category = candidate.category.name,
             minCreatedAtMillis = minCreatedAt
         )
+
         return count > 0
     }
 }

@@ -59,7 +59,11 @@ fun EntryScreen(
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { ev ->
-            if (ev is EntryViewModel.UiEvent.Submitted) {
+            if (formState.duplicateWarning) {
+                Toast.makeText(context, "Looks like a similar recent entry", Toast.LENGTH_SHORT)
+                    .show()
+                onNavigateToList()
+            } else if (ev is EntryViewModel.UiEvent.Submitted) {
                 Toast.makeText(context, "Expense added", Toast.LENGTH_SHORT).show()
                 onNavigateToList()
             }
@@ -149,12 +153,6 @@ fun EntryScreen(
                     Text(
                         "Mock Image"
                     )
-                }
-                AnimatedVisibility(
-                    visible = formState.duplicateWarning,
-                    enter = scaleIn(spring())
-                ) {
-                    AssistChip(onClick = {}, label = { Text("Looks similar to a recent entry") })
                 }
             }
 
