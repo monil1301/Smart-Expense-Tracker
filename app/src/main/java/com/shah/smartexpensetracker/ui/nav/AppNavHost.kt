@@ -25,7 +25,15 @@ fun AppNavHost(
         modifier = modifier
     ) {
         composable(Route.Entry.route) {
-            EntryScreen {}
+            EntryScreen {
+                navController.navigate(Route.List.route) {
+                    popUpTo(Route.Entry.route) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
         }
         composable(Route.List.route) {
             ListScreen()
