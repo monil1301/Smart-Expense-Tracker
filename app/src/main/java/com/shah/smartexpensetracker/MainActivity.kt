@@ -11,7 +11,9 @@ import androidx.navigation.compose.rememberNavController
 import com.shah.smartexpensetracker.ui.nav.AppNavHost
 import com.shah.smartexpensetracker.ui.nav.BottomBar
 import com.shah.smartexpensetracker.ui.theme.SmartExpenseTrackerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
