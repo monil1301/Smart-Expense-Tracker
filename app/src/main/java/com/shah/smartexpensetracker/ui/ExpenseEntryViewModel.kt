@@ -3,12 +3,12 @@ package com.shah.smartexpensetracker.ui
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shah.smartexpensetracker.data.model.Category
 import com.shah.smartexpensetracker.data.model.EntryFormErrors
 import com.shah.smartexpensetracker.data.model.EntryFormState
 import com.shah.smartexpensetracker.data.model.Expense
 import com.shah.smartexpensetracker.data.repository.ExpenseEntryRepository
 import com.shah.smartexpensetracker.utils.AppClock
+import com.shah.smartexpensetracker.utils.enums.Category
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -39,16 +39,16 @@ class EntryViewModel @Inject constructor(
     private val _events = Channel<UiEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
 
-    fun onTitleChange(v: String) =
-        _formState.update { it.copy(title = v, errors = it.errors.copy(title = null)) }
+    fun onTitleChange(title: String) =
+        _formState.update { it.copy(title = title, errors = it.errors.copy(title = null)) }
 
-    fun onAmountChange(v: String) =
-        _formState.update { it.copy(amountInput = v, errors = it.errors.copy(amount = null)) }
+    fun onAmountChange(amount: String) =
+        _formState.update { it.copy(amountInput = amount, errors = it.errors.copy(amount = null)) }
 
-    fun onCategoryChange(c: Category) =
-        _formState.update { it.copy(category = c, errors = it.errors.copy(category = null)) }
+    fun onCategoryChange(category: Category) =
+        _formState.update { it.copy(category = category, errors = it.errors.copy(category = null)) }
 
-    fun onNotesChange(v: String) = _formState.update { it.copy(notes = v.take(100)) }
+    fun onNotesChange(notes: String) = _formState.update { it.copy(notes = notes.take(100)) }
     fun onReceipt(uri: Uri?) = _formState.update { it.copy(receiptUri = uri) }
 
     fun submit() = viewModelScope.launch {

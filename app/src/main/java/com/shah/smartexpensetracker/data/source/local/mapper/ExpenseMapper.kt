@@ -1,6 +1,6 @@
 package com.shah.smartexpensetracker.data.source.local.mapper
 
-import com.shah.smartexpensetracker.data.model.Category
+import com.shah.smartexpensetracker.utils.enums.Category
 import com.shah.smartexpensetracker.data.model.Expense
 import com.shah.smartexpensetracker.data.source.local.entity.ExpenseEntity
 

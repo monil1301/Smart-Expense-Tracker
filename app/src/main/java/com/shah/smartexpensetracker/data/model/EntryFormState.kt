@@ -1,6 +1,7 @@
 package com.shah.smartexpensetracker.data.model
 
 import android.net.Uri
+import com.shah.smartexpensetracker.utils.enums.Category
 
 /**
  * Created by Monil on 10/08/25.

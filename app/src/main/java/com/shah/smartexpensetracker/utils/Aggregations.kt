@@ -1,6 +1,6 @@
 package com.shah.smartexpensetracker.utils
 
-import com.shah.smartexpensetracker.data.model.Category
+import com.shah.smartexpensetracker.utils.enums.Category
 import com.shah.smartexpensetracker.data.model.Expense
 import java.time.Instant
 import java.time.LocalDate

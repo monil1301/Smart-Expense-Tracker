@@ -13,8 +13,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.shah.smartexpensetracker.data.model.Category
 import com.shah.smartexpensetracker.utils.displayName
+import com.shah.smartexpensetracker.utils.enums.Category
 
 /**
  * Created by Monil on 10/08/25.

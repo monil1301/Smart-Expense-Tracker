@@ -1,5 +1,6 @@
 package com.shah.smartexpensetracker.data.model
 
+import com.shah.smartexpensetracker.utils.enums.Category
 import java.time.Instant
 import java.util.UUID
 
@@ -16,5 +17,3 @@ data class Expense(
     val receiptUri: String? = null,
     val createdAtMillis: Long = Instant.now().toEpochMilli()
 )
-
-enum class Category { STAFF, TRAVEL, FOOD, UTILITY }

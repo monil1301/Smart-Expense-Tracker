@@ -1,6 +1,6 @@
 package com.shah.smartexpensetracker.utils
 
-import com.shah.smartexpensetracker.data.model.Category
+import com.shah.smartexpensetracker.utils.enums.Category
 
 /**
  * Created by Monil on 10/08/25.
