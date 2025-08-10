@@ -1,5 +1,6 @@
 package com.shah.smartexpensetracker.ui.viewmodels
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shah.smartexpensetracker.data.model.Expense
@@ -7,15 +8,20 @@ import com.shah.smartexpensetracker.data.model.report.CategoryPoint
 import com.shah.smartexpensetracker.data.model.report.DayPoint
 import com.shah.smartexpensetracker.data.model.report.ReportFormState
 import com.shah.smartexpensetracker.data.repository.ExpenseReportRepository
+import com.shah.smartexpensetracker.utils.AppClock
+import com.shah.smartexpensetracker.utils.CsvExportManager
 import com.shah.smartexpensetracker.utils.dayBoundsUtcMillis
 import com.shah.smartexpensetracker.utils.last7Days
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -28,11 +34,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReportViewModel @Inject constructor(
-    private val repository: ExpenseReportRepository
+    private val repository: ExpenseReportRepository,
+    private val csv: CsvExportManager
 ) : ViewModel() {
 
     private val _range = MutableStateFlow(last7Days()) // Pair<start,end>
     private val _loading = MutableStateFlow(false)
+    private val _date = MutableStateFlow(AppClock.today())
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val expenses: Flow<List<Expense>> = _range.flatMapLatest { (start, end) ->
@@ -60,14 +68,6 @@ class ReportViewModel @Inject constructor(
             )
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), initial())
 
-    fun refresh() = viewModelScope.launch {
-        _loading.value = true
-        // Flow from Room auto-updates; small delay not needed. Just flip loading briefly.
-        _loading.value = false
-    }
-
-    fun setRange(start: LocalDate, end: LocalDate) { _range.value = start to end }
-
     private fun initial(): ReportFormState {
         val (s, e) = last7Days()
         return ReportFormState(rangeStart = s, rangeEnd = e, isLoading = true)
@@ -81,5 +81,23 @@ class ReportViewModel @Inject constructor(
 
         val days = generateSequence(start) { it.plusDays(1) }.takeWhile { !it.isAfter(end) }.toList()
         return days.map { d -> DayPoint(d, map[d] ?: 0L) }
+    }
+
+    private val _share = MutableSharedFlow<Uri>(extraBufferCapacity = 1)
+    val share: SharedFlow<Uri> = _share
+
+    fun exportCurrentDay() = viewModelScope.launch {
+        val (s, e) = dayBoundsUtcMillis(_date.value)
+        val rows = repository.getExpensesBetween(s, e).first()
+        val uri = csv.writeCsvAndGetUri("expenses_${_date.value}", rows)
+        _share.emit(uri)
+    }
+
+    fun exportLast7Days() = viewModelScope.launch {
+        val (startDate, endDate) = last7Days()
+        val (s, e) = dayBoundsUtcMillis(startDate).first to dayBoundsUtcMillis(endDate).second
+        val rows = repository.getExpensesBetween(s, e).first()
+        val uri = csv.writeCsvAndGetUri("expenses_${startDate}_to_${endDate}", rows)
+        _share.emit(uri)
     }
 }
